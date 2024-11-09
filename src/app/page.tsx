@@ -1,6 +1,7 @@
 'use client';
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Artist {
   name: string;
@@ -26,6 +27,7 @@ interface Search {
 export default function Page() {
   const [albums, setAlbums] = useState<any[]>([])
   const [inputField, setInputField] = useState('')
+  const router = useRouter()
 
   async function handleGetAlbums(query: string) {
     try {
@@ -59,9 +61,12 @@ export default function Page() {
             const albumInfo: Album = album.album
             const artistInfo: Artist = album.artist
             if (!albumInfo.cover_medium) return <div key={albumIndex}><p>Name: {album.title}</p></div>
-            //console.log(artistInfo)        
             return (
-              <button key={albumIndex} className="border border-black rounded-md bg-blue-950 w-32 flex flex-col items-center justify-center">
+              <button 
+                key={albumIndex} 
+                className="border border-black rounded-md bg-blue-950 w-32 flex flex-col items-center justify-center"
+                onClick={() => router.push(`/artist/${artistInfo.id}`)}
+                >
                 <Image src={artistInfo.picture_medium} alt="artist picture" width={150} height={150} className="rounded-md"/>
                 <p className="text-white">Artist Name: {artistInfo.name}</p>
               </button>
