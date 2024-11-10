@@ -5,8 +5,8 @@ import React from 'react'
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react'
 
-export default function Page({params}: {params: Promise<{id:string}>}) {
-    const {id} = React.use(params)
+export default function Page({params}: {params: Promise<{album_id:string}>}) {
+    const {album_id} = React.use(params)
     const [albumTracks, setAlbumTracks] = useState<any[]>([])
     const router = useRouter()
 
@@ -23,8 +23,8 @@ export default function Page({params}: {params: Promise<{id:string}>}) {
     }
 
     useEffect(() => {
-        handleGetAlbumData(id);
-    }, [id])
+        handleGetAlbumData(album_id);
+    }, [album_id])
 
 
     return (
