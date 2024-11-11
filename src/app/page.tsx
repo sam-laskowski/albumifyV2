@@ -14,7 +14,6 @@ export default function Page() {
       </h1>
       <Button onClick={() => router.push("/overview")}>Explore</Button>
       <Link href="/login">Login</Link>
-      <Link href="/signup">Sign Up</Link>
     </>
   );
 }

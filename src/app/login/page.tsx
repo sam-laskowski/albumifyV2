@@ -1,7 +1,8 @@
+import Authentication from "@/components/auth/Authentication";
 import React from "react";
 
 const Page = () => {
-  return <div>login n that</div>;
+  return <Authentication />;
 };
 
 export default Page;

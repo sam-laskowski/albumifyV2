@@ -1,17 +1,19 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface AuthenticationProps {
   handleCloseModal: () => void;
 }
 
-const Authentication = ({ handleCloseModal }: AuthenticationProps) => {
+const Authentication = () => {
   const [isRegistration, setIsRegistration] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const { signup, login } = useAuth();
 
@@ -37,7 +39,8 @@ const Authentication = ({ handleCloseModal }: AuthenticationProps) => {
         // login a user
         await login(email, password);
       }
-      handleCloseModal();
+      router.back();
+      //handleCloseModal();
     } catch (error) {
       console.log((error as Error).message);
       setError((error as Error).message);
@@ -47,7 +50,7 @@ const Authentication = ({ handleCloseModal }: AuthenticationProps) => {
   }
   return (
     <>
-      <h2 className="sign-up-text">{isRegistration ? "Sign Up" : "Login"}</h2>
+      <h2 className="">{isRegistration ? "Sign Up" : "Login"}</h2>
       <p>
         {isRegistration ? "Create an account!" : "Sign in to your account!"}
       </p>
@@ -71,7 +74,7 @@ const Authentication = ({ handleCloseModal }: AuthenticationProps) => {
         <p>{isAuthenticating ? "Authenticating..." : "Submit"}</p>
       </button>
       <hr />
-      <div className="register-content">
+      <div className="">
         <p>
           {isRegistration
             ? "Already have an account?"
