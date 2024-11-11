@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Album, Artist } from "./Deezer.types";
 import Image from "next/image";
 
@@ -15,17 +15,21 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   setAlbumObject,
 }) => {
   //console.log(albumObject);
+  //console.log("album object found? ", Number.isInteger(albumObject?.id));
+  const [albumFound, setAlbumFound] = useState(false);
   return (
     <>
-      <div className="flex flex-col">
-        <Image
-          src={albumObject?.cover_big!}
-          alt="Album Cover"
-          width={400}
-          height={400}
-        />
-        <div></div>
-      </div>
+      {Number.isInteger(albumObject?.id) && (
+        <div className="flex flex-col">
+          <Image
+            src={albumObject?.cover_big!}
+            alt="Album Cover"
+            width={400}
+            height={400}
+          />
+          <div></div>
+        </div>
+      )}
     </>
   );
 };

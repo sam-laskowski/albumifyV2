@@ -24,7 +24,6 @@ const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({
 }) => {
   return (
     <div>
-      <h1 className="text-white font-extrabold text-3xl">albumify</h1>
       <input
         type="text"
         onKeyDown={(e) => {
