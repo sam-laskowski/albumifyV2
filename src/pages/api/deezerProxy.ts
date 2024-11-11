@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Query parameter is required' });
   }
   try {
-      const response = await fetch(`https://api.deezer.com/search?q=artist:"${query}"`);
+      const response = await fetch(`https://api.deezer.com/search?q=${query}`);
       const data = await response.json();
 
       res.status(200).json(data);
