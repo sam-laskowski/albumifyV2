@@ -7,9 +7,10 @@ interface SideAlbumSearchProps {
     setArtistSearchValue: (value:string) => void;
     inputField: string;
     setInputField: (value: string) => void;
+    setAlbumId: (value: number) => void;
 }
 
-const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({ artistSearchValue, setArtistSearchValue, inputField, setInputField}) => {
+const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({ artistSearchValue, setArtistSearchValue, inputField, setInputField, setAlbumId}) => {
     return (
         <div>
             <h1 className="text-white font-extrabold text-3xl">albumify</h1>
@@ -25,6 +26,7 @@ const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({ artistSearchValue, se
             artistSearchValue={artistSearchValue} 
             setArtistSearchValue={setArtistSearchValue}
             inputField={inputField}
+            setAlbumId={setAlbumId}
             />
         </div>
     );

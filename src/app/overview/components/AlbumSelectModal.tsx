@@ -15,15 +15,17 @@ interface Album {
     artist: Artist;
     cover_medium: string;
     cover: string;
+    id: number;
 }
 
 interface AlbumSelectModalProps {
     album: Album | undefined;
     artist: Artist | undefined;
     closeModal: () => void;
+    setAlbumId: (value: number) => void;
 }
 
-const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({ album, artist, closeModal }) => {
+const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({ album, artist, closeModal, setAlbumId }) => {
     if (album == null || artist == null) return
 
     const [artistAlbums, setArtistAlbums] = useState<Album[]>([])
@@ -36,7 +38,7 @@ const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({ album, artist, clos
           const data = await res.json()
           
           const albums = data.data
-          console.log("album select modal: ", albums)
+          //console.log("album select modal: ", albums)
           setArtistAlbums(albums)
         } catch (error: any) {
           console.log(error.message)
@@ -55,6 +57,11 @@ const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({ album, artist, clos
                 return (
                     <button 
                     className='flex flex-col border border-white rounded-sm'
+                    onClick={() => {
+                        setAlbumId(album.id)
+                        closeModal()
+                    }}
+                    key={album.id}
                     >
                         <Image src={album?.cover_medium!} alt="album cover" width={150} height={150} />
                         <p className='text-white'>{album?.title}</p>

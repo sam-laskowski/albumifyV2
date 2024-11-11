@@ -7,6 +7,7 @@ interface SideAlbumSearchProps {
     artistSearchValue: string;
     setArtistSearchValue: (value:string) => void;
     inputField: string;
+    setAlbumId: (value: number) => void;
 }
 
 interface fetchedData {
@@ -28,9 +29,10 @@ interface Artist {
     artist: Artist;
     cover_medium: string;
     cover: string;
+    id: number;
   }
 
-const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({ artistSearchValue, setArtistSearchValue, inputField }) => {
+const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({ artistSearchValue, setArtistSearchValue, inputField, setAlbumId }) => {
     const [albums, setAlbums] = useState<any[]>([])
     const [isSearch, setIsSearch] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -108,7 +110,7 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({ artistSearchV
       }))}
     </div>
     {isModalOpen && (
-      <AlbumSelectModal album={selectedAlbum} artist={selectedArtist} closeModal={closeModal} />
+      <AlbumSelectModal album={selectedAlbum} artist={selectedArtist} closeModal={closeModal} setAlbumId={setAlbumId}/>
     )}
     </>
   )
