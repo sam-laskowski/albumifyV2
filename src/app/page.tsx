@@ -12,20 +12,6 @@ export default function Page() {
   const { globalUser, logout } = useAuth();
   return (
     <>
-      <header className="flex flex-row justify-between">
-        <h1 className="text-white font-extrabold text-3xl cursor-pointer">
-          albumify
-        </h1>
-        <div className="flex flex-row gap-2">
-          {!globalUser && (
-            <Link href="/login">
-              <Button>Login</Button>
-            </Link>
-          )}
-
-          {globalUser && <Button onClick={logout}>Logout</Button>}
-        </div>
-      </header>
       <Button onClick={() => router.push("/overview")}>Explore</Button>
     </>
   );

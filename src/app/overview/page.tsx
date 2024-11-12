@@ -17,12 +17,6 @@ export default function Page() {
     <>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
-          <h1
-            className="text-white font-extrabold text-3xl cursor-pointer"
-            onClick={() => router.push("/")}
-          >
-            albumify
-          </h1>
           <SideAlbumSearch
             artistSearchValue={artistSearchValue}
             setArtistSearchValue={setArtistSearchValue}

@@ -46,6 +46,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   async function handleSubmitRating() {
     if (globalUser == null) {
       router.push("/signup");
+      resetRating();
       return;
     }
 
