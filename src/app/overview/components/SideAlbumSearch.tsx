@@ -11,6 +11,7 @@ interface SideAlbumSearchProps {
   setAlbumId: (value: number) => void;
   albumObject: Album | undefined;
   setAlbumObject: (value: Album) => void;
+  setArtistName: (value: string) => void;
 }
 
 const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({
@@ -21,6 +22,7 @@ const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({
   setAlbumId,
   setAlbumObject,
   albumObject,
+  setArtistName,
 }) => {
   return (
     <div>
@@ -39,6 +41,7 @@ const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({
         inputField={inputField}
         setAlbumId={setAlbumId}
         setAlbumObject={setAlbumObject}
+        setArtistName={setArtistName}
       />
     </div>
   );

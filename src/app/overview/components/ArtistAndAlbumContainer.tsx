@@ -10,6 +10,7 @@ interface SideAlbumSearchProps {
   inputField: string;
   setAlbumId: (value: number) => void;
   setAlbumObject: (value: Album) => void;
+  setArtistName: (value: string) => void;
 }
 
 const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
@@ -18,6 +19,7 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
   inputField,
   setAlbumId,
   setAlbumObject,
+  setArtistName,
 }) => {
   const [albums, setAlbums] = useState<any[]>([]);
   const [isSearch, setIsSearch] = useState(false);
@@ -101,7 +103,10 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
               <button
                 key={artistInfo.id}
                 className="border border-black rounded-md bg-blue-950 w-32 flex flex-col items-center justify-center"
-                onClick={() => handleOpenModal(albumInfo, artistInfo)}
+                onClick={() => {
+                  handleOpenModal(albumInfo, artistInfo);
+                  setArtistName(artistInfo.name);
+                }}
               >
                 <Image
                   src={artistInfo.picture_medium}

@@ -11,10 +11,11 @@ export default function Page() {
   const [inputField, setInputField] = useState("");
   const [albumId, setAlbumId] = useState(0);
   const [albumObject, setAlbumObject] = useState<Album | undefined>(undefined);
+  const [artistName, setArtistName] = useState<string | undefined>(undefined);
   const router = useRouter();
   return (
     <>
-      <div className="flex flex-row space-x-20">
+      <div className="flex flex-row justify-between">
         <div className="flex flex-col">
           <h1
             className="text-white font-extrabold text-3xl cursor-pointer"
@@ -30,6 +31,7 @@ export default function Page() {
             setAlbumId={setAlbumId}
             albumObject={albumObject}
             setAlbumObject={setAlbumObject}
+            setArtistName={setArtistName}
           />
         </div>
         <div className="flex flex-col bg-black">
@@ -43,6 +45,7 @@ export default function Page() {
           albumId={albumId}
           albumObject={albumObject}
           setAlbumObject={setAlbumObject}
+          artistName={artistName}
         />
       </div>
     </>

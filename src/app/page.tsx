@@ -17,9 +17,11 @@ export default function Page() {
           albumify
         </h1>
         <div className="flex flex-row gap-2">
-          <Link href="/login">
-            <Button>Login</Button>
-          </Link>
+          {!globalUser && (
+            <Link href="/login">
+              <Button>Login</Button>
+            </Link>
+          )}
 
           {globalUser && <Button onClick={logout}>Logout</Button>}
         </div>

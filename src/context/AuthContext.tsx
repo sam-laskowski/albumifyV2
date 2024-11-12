@@ -28,7 +28,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [globalUser, setGlobalUser] = useState<any>(null);
-  const [globalData, setGlobalData] = useState<any>(null);
+  const [globalData, setGlobalData] = useState<{} | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   function signup(email: string, password: string) {
