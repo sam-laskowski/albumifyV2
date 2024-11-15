@@ -10,11 +10,14 @@ import {
   FaStarHalfAlt,
   FaStar,
   FaStarHalf,
+  FaPlus,
+  FaCheck,
 } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
+import { Button } from "@/components/ui/button";
 
 interface SideAlbumView {
   albumId: number;
@@ -33,6 +36,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   //console.log("album object found? ", Number.isInteger(albumObject?.id));
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
+  const [isOnToListen, setIsOnToListen] = useState(false);
   const shouldSubmitRating = useRef(true);
   const router = useRouter();
 
@@ -96,6 +100,10 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
     }
   }, [rating]);
 
+  // useEffect(() => {
+  //   handleSubmitRating();
+  // }, [isOnToListen]);
+
   const resetRating = () => {
     shouldSubmitRating.current = false;
     setRating(0);
@@ -139,6 +147,13 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
               );
             })}
           </div>
+          <Button
+            className="mt-2"
+            onClick={() => setIsOnToListen(!isOnToListen)}
+          >
+            {isOnToListen ? <FaPlus /> : <FaCheck />}
+            To Listen
+          </Button>
         </div>
       )}
     </>

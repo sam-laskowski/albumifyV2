@@ -80,9 +80,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
         if (docSnap.exists()) {
           firebaseData = docSnap.data();
-          console.log("FOUND USER DATA", firebaseData);
+          console.log("FOUND USER DATA");
         }
         setGlobalData(firebaseData);
+        console.log("global data", globalData);
       } catch (error) {
         console.error("an error has occured", (error as Error).message);
       } finally {
