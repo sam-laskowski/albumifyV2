@@ -12,7 +12,25 @@ export default function Page() {
   const { globalUser, logout } = useAuth();
   return (
     <>
-      <Button onClick={() => router.push("/overview")}>Explore</Button>
+      <div className="h-screen flex items-center ml-56">
+        <div className="mb-60 flex flex-col justify-center items-center">
+          <h1 className="text-8xl font-extrabold mb-4">albumify</h1>
+          <Button
+            variant="ghost"
+            className="w-52 text-xl"
+            onClick={() => router.push("/overview")}
+          >
+            Explore
+          </Button>
+        </div>
+        <Image
+          className="ml-32 mb-56"
+          src={"/record-white.png"}
+          width={350}
+          height={350}
+          alt="record"
+        />
+      </div>
     </>
   );
 }

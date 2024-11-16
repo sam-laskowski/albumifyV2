@@ -79,7 +79,7 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
 
   useEffect(() => {
     if (artistSearchValue.length == 0) {
-      console.log("artist value empty");
+      console.log("artist value empty", artistSearchValue);
       return;
     }
     //console.log("artist and album container useeffect", artistSearchValue);

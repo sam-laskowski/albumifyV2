@@ -12,7 +12,7 @@ const Header = () => {
   const { globalUser, logout } = useAuth();
   return (
     <>
-      <header className="flex flex-row justify-between">
+      <header className="flex flex-row justify-between m-4">
         <h1
           className="text-white font-extrabold text-3xl cursor-pointer"
           onClick={() => router.push("/")}
@@ -30,7 +30,8 @@ const Header = () => {
             <>
               <div>
                 <CgProfile
-                  size={42}
+                  className="cursor-pointer"
+                  size={40}
                   onClick={() => router.push(`/profile/${globalUser.uid}`)}
                 />
               </div>

@@ -37,11 +37,14 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
   const [isOnToListen, setIsOnToListen] = useState(false);
-  const shouldSubmitRating = useRef(true);
+  // const shouldSubmitRating = useRef(true);
   const router = useRouter();
 
   const { globalUser, globalData, setGlobalData } = useAuth();
   const userAlbumRating = globalData ? globalData[albumId]?.rating : 0;
+  const userIsOnToListen = globalData
+    ? globalData[albumId]?.isOnToListen
+    : false;
 
   async function handleSubmitRating() {
     if (globalUser == null) {
@@ -55,7 +58,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
         ...(globalData || {}),
       };
 
-      console.log(isOnToListen);
+      // console.log(isOnToListen);
       const newData = {
         rating: rating,
         albumTitle: albumObject?.title,
@@ -68,7 +71,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
 
       setGlobalData(newGlobalData);
 
-      console.log(globalData);
+      // console.log(globalData);
 
       const userRef = doc(db, "users", globalUser.uid);
 
@@ -90,15 +93,19 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   useEffect(() => {
     if (isOnToListen) {
       setRating(0);
+      handleSubmitRating();
+      return;
     }
     if (rating > 0) {
       setIsOnToListen(false);
+      handleSubmitRating();
+      return;
     }
-    if (shouldSubmitRating.current) {
-      handleSubmitRating(); // possibly put handle within above if blocks
-    } else {
-      shouldSubmitRating.current = true;
-    }
+    // if (shouldSubmitRating.current) {
+    //   handleSubmitRating(); // possibly put handle within above if blocks
+    // } else {
+    //   shouldSubmitRating.current = true;
+    // }
   }, [rating, isOnToListen]);
 
   // const resetRating = () => {
@@ -150,7 +157,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
               setIsOnToListen(!isOnToListen);
             }}
           >
-            {isOnToListen ? <FaCheck /> : <FaPlus />}
+            {userIsOnToListen ? <FaCheck /> : <FaPlus />}
             To Listen
           </Button>
         </div>

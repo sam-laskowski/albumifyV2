@@ -60,11 +60,14 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
         <div className="text-white flex flex-row">
           <div className="flex flex-col mr-10">
             <Button onClick={copyToClipboard}>Share Profile</Button>
-            <h1>User Profile</h1>
             <h2>Rated Albums:</h2>
             <ul>
-              {Object.entries(userData).map(
-                ([albumId, albumData]: [string, any]) => (
+              {Object.entries(userData)
+                .filter(
+                  ([albumId, albumData]: [string, any]) =>
+                    albumData.isOnToListen == false
+                )
+                .map(([albumId, albumData]: [string, any]) => (
                   <li
                     key={albumId}
                     className="text-white"
@@ -73,12 +76,11 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
                       src={albumData.albumCover}
                       alt={albumData.albumTitle}
                     />
-                    <p>Album Title: {albumData.albumTitle}</p>
-                    <p>Artist: {albumData.albumArtist}</p>
-                    <p>Rating: {albumData.rating}</p>
+                    <p>{albumData.albumTitle}</p>
+                    <p>{albumData.albumArtist}</p>
+                    <p>{albumData.rating}/10</p>
                   </li>
-                )
-              )}
+                ))}
             </ul>
           </div>
           <ToListen

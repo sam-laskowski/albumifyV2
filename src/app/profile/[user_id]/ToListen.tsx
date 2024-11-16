@@ -14,8 +14,6 @@ interface userAlbumRatings {
 }
 
 function ToListen({ user_id, userData }: { user_id: string; userData: any }) {
-  const { globalData }: { globalData: userAlbumDataObject } = useAuth();
-
   return (
     <div>
       <div className="flex flex-col mr-10">
@@ -34,9 +32,8 @@ function ToListen({ user_id, userData }: { user_id: string; userData: any }) {
                   src={albumData.albumCover}
                   alt={albumData.albumTitle}
                 />
-                <p>Album Title: {albumData.albumTitle}</p>
-                <p>Artist: {albumData.albumArtist}</p>
-                <p>Rating: {albumData.rating}</p>
+                <p>{albumData.albumTitle}</p>
+                <p>{albumData.albumArtist}</p>
               </li>
             ))}
         </ul>
