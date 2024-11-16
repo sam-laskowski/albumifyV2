@@ -41,20 +41,12 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   const router = useRouter();
 
   const { globalUser, globalData, setGlobalData } = useAuth();
-  // console.log(rating);
-  // console.log(globalData);
   const userAlbumRating = globalData ? globalData[albumId]?.rating : 0;
-
-  //console.log(globalData[albumId].rating);
 
   async function handleSubmitRating() {
     if (globalUser == null) {
       router.push("/signup");
-      resetRating();
-      return;
-    }
-
-    if (!rating) {
+      //resetRating();
       return;
     }
 
@@ -63,11 +55,13 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
         ...(globalData || {}),
       };
 
+      console.log(isOnToListen);
       const newData = {
         rating: rating,
         albumTitle: albumObject?.title,
         albumCover: albumObject?.cover_medium,
         albumArtist: artistName,
+        isOnToListen: isOnToListen,
       };
 
       newGlobalData[albumId] = newData;
@@ -87,27 +81,30 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
         },
         { merge: true }
       );
-      resetRating();
+      //resetRating();
     } catch (error) {
       console.log((error as Error).message);
     }
   }
+
   useEffect(() => {
+    if (isOnToListen) {
+      setRating(0);
+    }
+    if (rating > 0) {
+      setIsOnToListen(false);
+    }
     if (shouldSubmitRating.current) {
-      handleSubmitRating();
+      handleSubmitRating(); // possibly put handle within above if blocks
     } else {
       shouldSubmitRating.current = true;
     }
-  }, [rating]);
+  }, [rating, isOnToListen]);
 
-  // useEffect(() => {
-  //   handleSubmitRating();
-  // }, [isOnToListen]);
-
-  const resetRating = () => {
-    shouldSubmitRating.current = false;
-    setRating(0);
-  };
+  // const resetRating = () => {
+  //   shouldSubmitRating.current = false;
+  //   setRating(0);
+  // };
   return (
     <>
       {Number.isInteger(albumObject?.id) && (
@@ -132,7 +129,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
                   onMouseEnter={() => setHover(starIndex)}
                   onMouseLeave={() => setHover(0)}
                 >
-                  {starIndex <= (hover || rating || userAlbumRating) ? (
+                  {starIndex <= (hover || userAlbumRating) ? (
                     <FaStar
                       size={40}
                       className="text-yellow-500"
@@ -149,9 +146,11 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
           </div>
           <Button
             className="mt-2"
-            onClick={() => setIsOnToListen(!isOnToListen)}
+            onClick={() => {
+              setIsOnToListen(!isOnToListen);
+            }}
           >
-            {isOnToListen ? <FaPlus /> : <FaCheck />}
+            {isOnToListen ? <FaCheck /> : <FaPlus />}
             To Listen
           </Button>
         </div>

@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebase";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import ToListen from "./ToListen";
 
 interface userAlbumDataObject {
   [albumId: number]: userAlbumRatings;
@@ -15,6 +15,7 @@ interface userAlbumRatings {
   albumCover: string;
   albumTitle: string;
   rating: number;
+  isOnToListen: boolean;
 }
 
 const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
@@ -56,29 +57,34 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
   return (
     <>
       {userData ? (
-        <div className="text-white">
-          <Button onClick={copyToClipboard}>Share Profile</Button>
-          <h1>User Profile</h1>
-          <p>User ID: {user_id}</p>
-          <h2>Albums:</h2>
-          <ul>
-            {Object.entries(userData).map(
-              ([albumId, albumData]: [string, any]) => (
-                <li
-                  key={albumId}
-                  className="text-white"
-                >
-                  <img
-                    src={albumData.albumCover}
-                    alt={albumData.albumTitle}
-                  />
-                  <p>Album Title: {albumData.albumTitle}</p>
-                  <p>Artist: {albumData.albumArtist}</p>
-                  <p>Rating: {albumData.rating}</p>
-                </li>
-              )
-            )}
-          </ul>
+        <div className="text-white flex flex-row">
+          <div className="flex flex-col mr-10">
+            <Button onClick={copyToClipboard}>Share Profile</Button>
+            <h1>User Profile</h1>
+            <h2>Rated Albums:</h2>
+            <ul>
+              {Object.entries(userData).map(
+                ([albumId, albumData]: [string, any]) => (
+                  <li
+                    key={albumId}
+                    className="text-white"
+                  >
+                    <img
+                      src={albumData.albumCover}
+                      alt={albumData.albumTitle}
+                    />
+                    <p>Album Title: {albumData.albumTitle}</p>
+                    <p>Artist: {albumData.albumArtist}</p>
+                    <p>Rating: {albumData.rating}</p>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+          <ToListen
+            user_id={user_id}
+            userData={userData}
+          />
         </div>
       ) : (
         <div>No user data found.</div>
