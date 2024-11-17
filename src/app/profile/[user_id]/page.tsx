@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebase";
 import { Button } from "@/components/ui/button";
 import ToListen from "./ToListen";
+import Image from "next/image";
+import StarRating from "./StarRating";
 
 interface userAlbumDataObject {
   [albumId: number]: userAlbumRatings;
@@ -46,42 +48,42 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
     fetchUserData();
   }, [user_id]);
 
-  const copyToClipboard = () => {
-    const url = window.location.href;
-    navigator.clipboard.writeText(url);
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
   return (
     <>
       {userData ? (
-        <div className="text-white flex flex-row">
+        <div className="flex flex-row ml-10 mt-5">
           <div className="flex flex-col mr-10">
-            <Button onClick={copyToClipboard}>Share Profile</Button>
-            <h2>Rated Albums:</h2>
-            <ul>
+            <h2 className="font-bold text-2xl">Rated Albums</h2>
+            <div className="flex flex-wrap gap-6">
               {Object.entries(userData)
                 .filter(
                   ([albumId, albumData]: [string, any]) =>
                     albumData.isOnToListen == false
                 )
                 .map(([albumId, albumData]: [string, any]) => (
-                  <li
+                  <div
                     key={albumId}
-                    className="text-white"
+                    className="bg-stone-800 hover:bg-stone-700 rounded-sm p-2"
                   >
-                    <img
+                    <Image
                       src={albumData.albumCover}
+                      height={250}
+                      width={250}
+                      className="rounded-sm"
                       alt={albumData.albumTitle}
                     />
-                    <p>{albumData.albumTitle}</p>
-                    <p>{albumData.albumArtist}</p>
-                    <p>{albumData.rating}/10</p>
-                  </li>
+                    <div className="flex justify-between mt-2">
+                      <p className="font-bold">{albumData.albumTitle}</p>
+                      <p>{albumData.rating}/10</p>
+                    </div>
+                    <p className="opacity-90">{albumData.albumArtist}</p>
+                    <StarRating rating={albumData.rating} />
+                  </div>
                 ))}
-            </ul>
+            </div>
           </div>
           <ToListen
             user_id={user_id}

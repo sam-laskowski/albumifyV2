@@ -9,6 +9,11 @@ import { CgProfile } from "react-icons/cg";
 const Header = () => {
   const router = useRouter();
 
+  const copyToClipboard = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+  };
+
   const { globalUser, logout } = useAuth();
   return (
     <>
@@ -30,15 +35,23 @@ const Header = () => {
 
         <div className="flex flex-row gap-2">
           {!globalUser && (
-            <Link href="/login">
-              <button className="bg-indigo-600 text-white rounded-sm pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950">
-                Login
-              </button>
-            </Link>
+            <>
+              <Link href="/login">
+                <button className="bg-indigo-600 text-white rounded-sm pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950">
+                  Login
+                </button>
+              </Link>
+            </>
           )}
 
           {globalUser && (
             <>
+              <button
+                className="bg-blue-500 text-white rounded-sm mr-5 pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950"
+                onClick={copyToClipboard}
+              >
+                Share Profile
+              </button>
               <div>
                 <CgProfile
                   className="cursor-pointer mr-4"
