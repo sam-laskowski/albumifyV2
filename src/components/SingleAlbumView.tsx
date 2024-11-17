@@ -19,38 +19,38 @@ export default function SingleAlbumView({ albumId }: { albumId: number }) {
     globalData[albumId];
   const [newRating, setNewRating] = useState<number>(rating);
 
-  async function handleSubmitRating() {
-    if (globalUser == null) {
-      router.push("/signup");
-      return;
-    }
-
-    try {
-      const newGlobalData = {
-        ...globalData,
-        [albumId]: {
-          ...globalData[albumId],
-          rating: newRating,
-        },
-      };
-
-      setGlobalData(newGlobalData);
-
-      const userRef = doc(db, "users", globalUser.uid);
-      await setDoc(
-        userRef,
-        {
-          [albumId]: { rating: newRating, isOnToListen: false },
-        },
-        { merge: true }
-      );
-    } catch (error) {
-      console.log((error as Error).message);
-    }
-  }
   useEffect(() => {
-    if (newRating == rating) {
-      return;
+    async function handleSubmitRating() {
+      if (globalUser == null) {
+        router.push("/signup");
+        return;
+      }
+      if (newRating == rating) {
+        return;
+      }
+
+      try {
+        const newGlobalData = {
+          ...globalData,
+          [albumId]: {
+            ...globalData[albumId],
+            rating: newRating,
+          },
+        };
+
+        setGlobalData(newGlobalData);
+
+        const userRef = doc(db, "users", globalUser.uid);
+        await setDoc(
+          userRef,
+          {
+            [albumId]: { rating: newRating, isOnToListen: false },
+          },
+          { merge: true }
+        );
+      } catch (error) {
+        console.log((error as Error).message);
+      }
     }
     handleSubmitRating();
   }, [newRating]);
