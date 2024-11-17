@@ -38,7 +38,6 @@ export default function Page() {
         <SideAlbumView
           albumId={albumId}
           albumObject={albumObject}
-          setAlbumObject={setAlbumObject}
           artistName={artistName}
         />
       </div>

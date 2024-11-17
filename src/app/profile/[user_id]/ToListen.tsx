@@ -1,5 +1,7 @@
+"use client";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface userAlbumDataObject {
@@ -15,6 +17,7 @@ interface userAlbumRatings {
 }
 
 function ToListen({ user_id, userData }: { user_id: string; userData: any }) {
+  const router = useRouter();
   return (
     <div>
       <div className="flex flex-col mr-10">
@@ -25,9 +28,10 @@ function ToListen({ user_id, userData }: { user_id: string; userData: any }) {
               ([albumId, albumData]: [string, any]) => albumData.isOnToListen
             )
             .map(([albumId, albumData]: [string, any]) => (
-              <div
+              <button
                 key={albumId}
                 className="bg-stone-800 hover:bg-stone-700 rounded-sm p-2"
+                onClick={() => router.push(`/album/${albumId}/`)}
               >
                 <Image
                   src={albumData.albumCover}
@@ -38,7 +42,7 @@ function ToListen({ user_id, userData }: { user_id: string; userData: any }) {
                 />
                 <p className="font-bold mt-2">{albumData.albumTitle}</p>
                 <p className="opacity-90">{albumData.albumArtist}</p>
-              </div>
+              </button>
             ))}
         </div>
       </div>

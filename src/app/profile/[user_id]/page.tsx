@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import ToListen from "./ToListen";
 import Image from "next/image";
 import StarRating from "./StarRating";
+import { useRouter } from "next/navigation";
 
 interface userAlbumDataObject {
   [albumId: number]: userAlbumRatings;
@@ -24,8 +25,7 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
   const { user_id } = React.use(params);
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const { globalData }: { globalData: userAlbumDataObject } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     // get data associated with user_id
@@ -34,6 +34,7 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
         const userRef = doc(db, "users", user_id);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
+          console.log("fetched from firebase");
           setUserData(userDoc.data());
         } else {
           console.log("No such document!");
@@ -44,7 +45,6 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
         setLoading(false);
       }
     };
-
     fetchUserData();
   }, [user_id]);
 
@@ -55,7 +55,7 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
     <>
       {userData ? (
         <div className="flex flex-row ml-10 mt-5">
-          <div className="flex flex-col mr-10">
+          <div className="flex flex-col mr-10 w-1/2">
             <h2 className="font-bold text-2xl">Rated Albums</h2>
             <div className="flex flex-wrap gap-6">
               {Object.entries(userData)
@@ -63,26 +63,35 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
                   ([albumId, albumData]: [string, any]) =>
                     albumData.isOnToListen == false
                 )
-                .map(([albumId, albumData]: [string, any]) => (
-                  <div
-                    key={albumId}
-                    className="bg-stone-800 hover:bg-stone-700 rounded-sm p-2"
-                  >
-                    <Image
-                      src={albumData.albumCover}
-                      height={250}
-                      width={250}
-                      className="rounded-sm"
-                      alt={albumData.albumTitle}
-                    />
-                    <div className="flex justify-between mt-2">
-                      <p className="font-bold">{albumData.albumTitle}</p>
-                      <p>{albumData.rating}/10</p>
-                    </div>
-                    <p className="opacity-90">{albumData.albumArtist}</p>
-                    <StarRating rating={albumData.rating} />
-                  </div>
-                ))}
+                .sort(
+                  ([, a]: [string, any], [, b]: [string, any]) =>
+                    b.rating - a.rating
+                )
+                .map(([albumId, albumData]: [string, any]) => {
+                  return (
+                    <button
+                      key={albumId}
+                      className="bg-stone-800 hover:bg-stone-700 rounded-sm p-2"
+                      onClick={() => router.push(`/album/${albumId}/`)}
+                    >
+                      <Image
+                        src={albumData.albumCover}
+                        height={250}
+                        width={250}
+                        className="rounded-sm"
+                        alt={albumData.albumTitle}
+                      />
+                      <div className="flex justify-between mt-2">
+                        <p className="font-bold truncate w-48">
+                          {albumData.albumTitle}
+                        </p>
+                        <h1>{albumData.rating}/10</h1>
+                      </div>
+                      <p className="opacity-90 w-48">{albumData.albumArtist}</p>
+                      <StarRating rating={albumData.rating} />
+                    </button>
+                  );
+                })}
             </div>
           </div>
           <ToListen

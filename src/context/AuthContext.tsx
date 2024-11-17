@@ -49,18 +49,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return signOut(auth);
   }
 
-  const value = {
-    globalUser,
-    setGlobalUser,
-    globalData,
-    setGlobalData,
-    isLoading,
-    setIsLoading,
-    signup,
-    login,
-    logout,
-  };
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       console.log("CURRENT_USER: ", user);
@@ -83,7 +71,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           console.log("FOUND USER DATA");
         }
         setGlobalData(firebaseData);
-        console.log("global data", globalData);
       } catch (error) {
         console.error("an error has occured", (error as Error).message);
       } finally {
@@ -92,6 +79,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    console.log("global data", globalData);
+  }, []);
+
+  const value = {
+    globalUser,
+    setGlobalUser,
+    globalData,
+    setGlobalData,
+    isLoading,
+    setIsLoading,
+    signup,
+    login,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

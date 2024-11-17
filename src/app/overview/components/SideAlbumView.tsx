@@ -4,32 +4,21 @@ import { Album, Artist } from "./Deezer.types";
 import Image from "next/image";
 import HalfIcon from "./HalfIcon";
 
-import {
-  FaRegStar,
-  FaRegStarHalf,
-  FaStarHalfAlt,
-  FaStar,
-  FaStarHalf,
-  FaPlus,
-  FaCheck,
-} from "react-icons/fa";
+import { FaRegStar, FaStar, FaPlus, FaCheck } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
-import { Button } from "@/components/ui/button";
 
 interface SideAlbumView {
   albumId: number;
-  albumObject: Album | undefined;
-  setAlbumObject: (value: Album) => void;
-  artistName: string | undefined;
+  albumObject?: Album | undefined;
+  artistName?: string | undefined;
 }
 
 const SideAlbumView: React.FC<SideAlbumView> = ({
   albumId,
   albumObject,
-  setAlbumObject,
   artistName,
 }) => {
   //console.log(albumObject);
@@ -62,7 +51,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
       const newData = {
         rating: rating,
         albumTitle: albumObject?.title,
-        albumCover: albumObject?.cover_medium,
+        albumCover: albumObject?.cover_big,
         albumArtist: artistName,
         isOnToListen: isOnToListen,
       };
@@ -158,7 +147,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
               setIsOnToListen(!isOnToListen);
             }}
           >
-            {userIsOnToListen ? (
+            {isOnToListen ? (
               <FaCheck className="mr-2" />
             ) : (
               <FaPlus className="mr-2" />
