@@ -152,15 +152,19 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
               );
             })}
           </div>
-          <Button
-            className="mt-2"
+          <button
+            className="bg-zinc-800 flex flex-row rounded-md justify-center items-center mt-2 pt-2 pb-2 hover:ring-2 hover:ring-stone-600"
             onClick={() => {
               setIsOnToListen(!isOnToListen);
             }}
           >
-            {userIsOnToListen ? <FaCheck /> : <FaPlus />}
+            {userIsOnToListen ? (
+              <FaCheck className="mr-2" />
+            ) : (
+              <FaPlus className="mr-2" />
+            )}
             To Listen
-          </Button>
+          </button>
         </div>
       )}
     </div>
