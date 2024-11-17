@@ -25,9 +25,11 @@ const SideAlbumSearch: React.FC<SideAlbumSearchProps> = ({
   setArtistName,
 }) => {
   return (
-    <div>
+    <div className="flex flex-col ml-10">
       <input
         type="text"
+        className="rounded-lg pt-2 pb-2 pl-3 pr-3 transition-all bg-gray-800 hover:ring-2 hover:ring-slate-600"
+        placeholder="Search by Artist"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             console.log("search triggered");

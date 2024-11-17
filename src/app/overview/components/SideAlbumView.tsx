@@ -113,7 +113,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   //   setRating(0);
   // };
   return (
-    <>
+    <div className="mr-10">
       {Number.isInteger(albumObject?.id) && (
         <div className="flex flex-col">
           <Image
@@ -121,6 +121,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
             alt="Album Cover"
             width={400}
             height={400}
+            className="rounded-sm"
           />
           <div className="mt-2 flex flex-row items-center justify-center">
             {[...Array(10)].map((_, index) => {
@@ -162,7 +163,7 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
           </Button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

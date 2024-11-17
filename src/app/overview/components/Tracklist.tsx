@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Album } from "./Deezer.types";
+import Image from "next/image";
 
 interface Tracklist {
   albumId: number;
@@ -46,17 +47,24 @@ const Tracklist: React.FC<Tracklist> = ({
 
   return (
     <>
+      <h1 className="font-extrabold text-8xl mb-6">{albumObject?.title}</h1>
       {foundTracks &&
         albumTracks.map((track, trackIndex) => {
           return (
             <div
               key={trackIndex}
-              className="flex flex-row text-white gap-3"
+              className="flex flex-row gap-3 mt-1 p-1 rounded-sm hover:bg-slate-800"
             >
-              <h1 className="w-10 text-center justify-center content-center">
+              <h1 className="opacity-80 w-10 text-center flex justify-center items-center">
                 {trackIndex + 1}
               </h1>
-              {/* <Image src={track} /> */}
+              <Image
+                src={albumObject?.cover_small!}
+                width={48}
+                height={48}
+                alt="mini albob cover"
+                className="rounded-sm"
+              />
               <div>
                 <h1 className="font-bold">{track.title}</h1>
                 <h1 className="opacity-80">{track.artist.name}</h1>

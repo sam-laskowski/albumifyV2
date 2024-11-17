@@ -19,4 +19,5 @@ export interface Album {
   cover_medium: string;
   cover: string;
   id: number;
+  cover_small: string;
 }

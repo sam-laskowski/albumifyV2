@@ -31,7 +31,7 @@ const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({
         { cache: "default" }
       );
       const data = await res.json();
-
+      console.log(data);
       const albums = data.data;
       //console.log("album select modal: ", albums)
       setArtistAlbums(albums);
@@ -54,7 +54,7 @@ const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({
           {artistAlbums.map((album) => {
             return (
               <button
-                className="flex flex-col border border-white rounded-sm"
+                className="flex flex-col rounded-sm w-44 truncate transition-all hover:overflow-visible hover:translate-y-6 hover:bg-gray-800 p-3"
                 onClick={() => {
                   setAlbumId(album.id);
                   setAlbumObject(album);
@@ -68,7 +68,7 @@ const AlbumSelectModal: React.FC<AlbumSelectModalProps> = ({
                   width={150}
                   height={150}
                 />
-                <p className="text-white">{album?.title}</p>
+                <p className="w-36 font-bold mt-2">{album?.title}</p>
               </button>
             );
           })}

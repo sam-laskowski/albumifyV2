@@ -88,7 +88,7 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
   }, [artistSearchValue]);
   return (
     <>
-      <div className="overflow-y-auto flex flex-col gap-1 h-screen fixed top-20 left-0 w-56 items-center">
+      <div className="overflow-y-auto flex flex-col gap-10 h-screen w-72 pr-10 mt-3">
         {isSearch &&
           uniqueArtists.map((album) => {
             const albumInfo: Album = album.album;
@@ -102,7 +102,7 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
             return (
               <button
                 key={artistInfo.id}
-                className="border border-black rounded-md bg-blue-950 w-32 flex flex-col items-center justify-center"
+                className="flex flex-col p-2 items-center justify-center rounded-md transition-colors hover:bg-gray-800"
                 onClick={() => {
                   handleOpenModal(albumInfo, artistInfo);
                   setArtistName(artistInfo.name);
@@ -111,11 +111,11 @@ const ArtistAndAlbumContainer: React.FC<SideAlbumSearchProps> = ({
                 <Image
                   src={artistInfo.picture_medium}
                   alt="artist picture"
-                  width={150}
-                  height={150}
-                  className="rounded-md"
+                  width={220}
+                  height={220}
+                  className="rounded-full"
                 />
-                <p className="text-white">Artist Name: {artistInfo.name}</p>
+                <p className="mt-2 font-bold">{artistInfo.name}</p>
               </button>
             );
           })}

@@ -28,7 +28,7 @@ export default function Page() {
             setArtistName={setArtistName}
           />
         </div>
-        <div className="flex flex-col bg-black">
+        <div className="flex flex-col ml-5 mr-5">
           <Tracklist
             albumId={albumId}
             albumObject={albumObject}

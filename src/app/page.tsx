@@ -12,7 +12,7 @@ export default function Page() {
   const { globalUser, logout } = useAuth();
   return (
     <>
-      <div className="h-screen flex items-center ml-56">
+      <div className="h-screen flex items-center justify-center">
         <div className="mb-60 flex flex-col justify-center items-center">
           <h1 className="text-8xl font-extrabold mb-4">albumify</h1>
           <Button
