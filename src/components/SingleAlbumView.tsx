@@ -4,20 +4,14 @@ import Image from "next/image";
 import { FaRegStar, FaStar, FaPlus, FaCheck } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { doc, setDoc } from "firebase/firestore";
+import { deleteField, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function SingleAlbumView({ albumId }: { albumId: number }) {
-  //console.log(albumObject);
-  //console.log("album object found? ", Number.isInteger(albumObject?.id));
+  const { globalUser, globalData, setGlobalData, isLoading } = useAuth();
   const [hover, setHover] = useState<number>(0);
-  // const shouldSubmitRating = useRef(true);
+  const [newRating, setNewRating] = useState<number>(); //rating
   const router = useRouter();
-  const { globalUser, globalData, setGlobalData } = useAuth();
-
-  const { albumTitle, albumArtist, albumCover, rating, isOnToListen } =
-    globalData[albumId];
-  const [newRating, setNewRating] = useState<number>(rating);
 
   useEffect(() => {
     async function handleSubmitRating() {
@@ -25,7 +19,8 @@ export default function SingleAlbumView({ albumId }: { albumId: number }) {
         router.push("/signup");
         return;
       }
-      if (newRating == rating) {
+      if (!newRating || newRating == rating) {
+        console.log("invalid rating");
         return;
       }
 
@@ -54,6 +49,34 @@ export default function SingleAlbumView({ albumId }: { albumId: number }) {
     }
     handleSubmitRating();
   }, [newRating]);
+
+  async function handleDeleteAlbum() {
+    if (globalUser == null) {
+      router.push("/signup");
+      return;
+    }
+
+    try {
+      const newGlobalData = { ...globalData };
+      delete newGlobalData[albumId];
+
+      setGlobalData(newGlobalData);
+
+      const userRef = doc(db, "users", globalUser.uid);
+      await updateDoc(userRef, {
+        [albumId]: deleteField(),
+      });
+      router.back();
+    } catch (error) {
+      console.log((error as Error).message);
+    }
+  }
+
+  if (isLoading || !globalData || !globalData[albumId]) {
+    return <div>Loading...</div>;
+  }
+  const { albumTitle, albumArtist, albumCover, rating, isOnToListen } =
+    globalData[albumId];
 
   return (
     <div className="mr-10">
@@ -98,6 +121,12 @@ export default function SingleAlbumView({ albumId }: { albumId: number }) {
             );
           })}
         </div>
+        <button
+          onClick={handleDeleteAlbum}
+          className="bg-zinc-800 flex flex-row pr-2 pl-2 rounded-md justify-center items-center mt-2 pt-2 pb-2 hover:ring-2 hover:ring-stone-600"
+        >
+          Remove
+        </button>
       </div>
     </div>
   );
