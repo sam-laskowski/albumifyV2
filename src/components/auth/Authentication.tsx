@@ -49,13 +49,16 @@ const Authentication = () => {
     }
   }
   return (
-    <>
-      <h2 className="">{isRegistration ? "Sign Up" : "Login"}</h2>
+    <div className="flex flex-col justify-center items-center mt-10 gap-3">
+      <h2 className="font-bold text-xl">
+        {isRegistration ? "Sign Up" : "Login"}
+      </h2>
       <p>
         {isRegistration ? "Create an account!" : "Sign in to your account!"}
       </p>
       {error && <p>❌ {error}</p>}
       <input
+        className="text-black text-lg rounded-sm pt-2 pb-2 pl-6 pr-6"
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
@@ -63,6 +66,7 @@ const Authentication = () => {
         placeholder="Email"
       />
       <input
+        className="text-black text-lg rounded-sm pt-2 pb-2 pl-6 pr-6 mb-2"
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
@@ -70,17 +74,21 @@ const Authentication = () => {
         placeholder="********"
         type="password"
       />
-      <button onClick={handleAuthenticate}>
+      <button
+        className="bg-zinc-700 rounded-md pt-2 pb-2 pl-4 pr-4 hover:ring-2 hover:ring-blue-600"
+        onClick={handleAuthenticate}
+      >
         <p>{isAuthenticating ? "Authenticating..." : "Submit"}</p>
       </button>
       <hr />
-      <div className="">
-        <p>
+      <div className="flex flex-col items-center">
+        <p className="mb-2">
           {isRegistration
             ? "Already have an account?"
             : "Don't have an account?"}
         </p>
         <button
+          className="bg-zinc-700 rounded-md pt-2 pb-2 pl-4 pr-4 hover:ring-2 hover:ring-blue-600"
           onClick={() => {
             setIsRegistration(!isRegistration);
           }}
@@ -88,7 +96,7 @@ const Authentication = () => {
           <p>{isRegistration ? "Sign in" : "Sign up"}</p>
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
