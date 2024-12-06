@@ -47,7 +47,7 @@ const Header = () => {
           {globalUser && (
             <>
               <button
-                className="bg-blue-500 text-white rounded-sm mr-5 pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950 sm:hidden"
+                className="bg-blue-500 text-white rounded-sm mr-5 pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950"
                 onClick={copyToClipboard}
               >
                 Share Profile
