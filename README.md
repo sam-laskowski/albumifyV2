@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Albumify
 
-## Getting Started
+This project was created in Next.js and uses the public Deezer api in order to get the information about all the albums. It allows a user to create an account and add albums of their choice to one of two sections: a To Listen, and a Rated section. The first of the two allows the user to view all albums which they would like to listen to in the future. It helps create a space for them where they can visually see all the albums they want to listen to. Once they have listened to one, they can then rate the album in accordance with how much they enjoyed it. Rated albums will then be held in the Rated section, where they are displayed in order of rank (highest first).
 
-First, run the development server:
+<img width="1999" alt="Albumify front page" src="https://sam-laskowski-website.vercel.app/_next/image?url=%2Fimages%2Fprojects%2Fmain_logo_page.png&w=1920&q=75">
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+You can find the [project here!](https://albumifyv2.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Explore**: Search for albums via the artist name. You will first need to
+  search for the albums corresponding artist and then select which album you
+  want to view.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Rate**: Allows user to rate album via a 10 point system. This a component
+  created which holds 10 stars and allows the user to select them, defining a
+  rating on click.
 
-## Learn More
+- **Add To Listen**: Albums that a user has not yet listened to, but wishes to
+  in the future can be added to a seperate list which they can they view on
+  their profile
 
-To learn more about Next.js, take a look at the following resources:
+- **Share Profile**: Showing others your opinion on certain albums is a key and
+  fun concept when it comes to rating things therefore adding a feature which
+  allows users to share their profile was a must. Users can click the Share
+  Profile button in order to share their profile with others. On click the
+  button will append their profile url to their clipboard allowing them to
+  easily give it to their friends
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<img width="1999" alt="Albumify front page" src="public\screencap.png">
