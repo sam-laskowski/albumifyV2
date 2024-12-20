@@ -9,27 +9,28 @@ import { useState } from "react";
 export default function Page() {
   const router = useRouter();
 
-  const { globalUser, logout } = useAuth();
   return (
     <>
-      <div className="h-screen flex items-center justify-center">
-        <div className="mb-60 flex flex-col justify-center items-center">
-          <h1 className="text-8xl font-extrabold mb-4">albumify</h1>
+      <div className="relative h-screen flex items-center justify-center">
+        <div className="relative z-10 mb-60 flex flex-col justify-center items-center">
+          <h1 className="text-8xl md:text-8xl font-extrabold mb-4">albumify</h1>
           <Button
             variant="ghost"
-            className="w-52 text-xl"
+            className="w-40 md:w-52 text-lg"
             onClick={() => router.push("/overview")}
           >
             Explore
           </Button>
         </div>
-        <Image
-          className="ml-32 mb-56"
-          src={"/record-white.png"}
-          width={350}
-          height={350}
-          alt="record"
-        />
+        <div className="absolute inset-0 flex items-center justify-center md:relative md:inset-auto bottom-80">
+          <Image
+            className="md:ml-32 md:mb-56"
+            src={"/record-white.png"}
+            width={350}
+            height={350}
+            alt="record"
+          />
+        </div>
       </div>
     </>
   );

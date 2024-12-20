@@ -8,13 +8,13 @@ import { CgProfile } from "react-icons/cg";
 
 const Header = () => {
   const router = useRouter();
+  const { globalUser, logout } = useAuth();
 
   const copyToClipboard = () => {
-    const url = window.location.href;
+    const url = `https://albumifyv2.vercel.app/profile/${globalUser.uid}`;
     navigator.clipboard.writeText(url);
   };
 
-  const { globalUser, logout } = useAuth();
   return (
     <>
       <header className="flex flex-row justify-between m-4 ml-10 mt-6 mr-10">
@@ -26,7 +26,7 @@ const Header = () => {
             albumify
           </h1>
           <button
-            className="ml-10 rounded-sm pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950"
+            className="ml-10 rounded-sm pt-2 pb-2 pl-3 pr-3 hover:ring-2 hover:ring-blue-950 hidden md:block"
             onClick={() => router.push("/overview")}
           >
             Explore
