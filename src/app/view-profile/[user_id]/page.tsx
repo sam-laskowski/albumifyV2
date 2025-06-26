@@ -1,23 +1,14 @@
 "use client";
-import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
-import { Button } from "@/components/ui/button";
-import ToListen from "./ToListen";
-import Image from "next/image";
-import StarRating from "./StarRating";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import router from "next/router";
+import StarRating from "@/app/profile/[user_id]/StarRating";
+import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface userAlbumDataObject {
   [albumId: number]: userAlbumRatings;
@@ -31,12 +22,14 @@ interface userAlbumRatings {
   isOnToListen: boolean;
 }
 
-const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
+const ViewUserProfile = ({
+  params,
+}: {
+  params: Promise<{ user_id: string }>;
+}) => {
   const { user_id } = React.use(params);
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedView, setSelectedView] = useState<string>("rated");
-  const router = useRouter();
   const { globalUser } = useAuth();
 
   useEffect(() => {
@@ -58,7 +51,11 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
       }
     };
     fetchUserData();
-  }, [user_id]);
+    if (globalUser == null) {
+      setLoading(false);
+      return;
+    }
+  }, [globalUser]);
 
   const AlbumSkeleton = () => (
     <div className="rounded-sm p-2">
@@ -86,55 +83,19 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
               ))}
             </div>
           </div>
-          <div className="hidden lg:flex flex-col mr-10">
-            <h2 className="font-bold text-2xl mb-4">To Listen</h2>
-            <div className="flex flex-wrap gap-6">
-              {Array.from({ length: 6 }).map((_, index) => (
-                <AlbumSkeleton key={index} />
-              ))}
-            </div>
-          </div>
         </div>
-        <Button
-          size="icon"
-          className="fixed bottom-6 right-6 w-24 h-24 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50"
-          onClick={() => router.push("/overview")}
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
       </>
     );
   }
+
   return (
     <>
-      {globalUser && userData && globalUser?.uid === user_id ? (
+      {userData ? (
         <>
           <div className="flex flex-col lg:flex-row ml-10 mt-5">
-            {/* Mobile Select */}
-            <div className="lg:hidden mb-4">
-              <Select
-                value={selectedView}
-                onValueChange={setSelectedView}
-              >
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select view" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rated">Rated Albums</SelectItem>
-                  <SelectItem value="toListen">To Listen</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
             {/* Rated Albums Section */}
-            <div
-              className={`flex flex-col mr-10 ${
-                selectedView === "rated" ? "block" : "hidden lg:block"
-              } ${selectedView === "toListen" ? "lg:block" : ""}`}
-            >
-              <h2 className="font-bold text-2xl mb-4 hidden lg:block">
-                Rated Albums
-              </h2>
+            <div className={`flex flex-col mr-10`}>
+              <h2 className="font-bold text-2xl mb-4">Rated Albums</h2>
               <div className="flex flex-wrap gap-6">
                 {Object.entries(userData)
                   .filter(
@@ -147,10 +108,9 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
                   )
                   .map(([albumId, albumData]: [string, any]) => {
                     return (
-                      <button
+                      <div
                         key={albumId}
                         className="bg-neutral-800 hover:bg-neutral-700 rounded-sm p-2"
-                        onClick={() => router.push(`/album/${albumId}/`)}
                       >
                         <Image
                           src={albumData.albumCover}
@@ -171,55 +131,28 @@ const UserProfile = ({ params }: { params: Promise<{ user_id: string }> }) => {
                           </p>
                           <StarRating rating={albumData.rating} />
                         </div>
-                      </button>
+                      </div>
                     );
                   })}
               </div>
             </div>
-            {/* To Listen Section */}
-            <div
-              className={`flex flex-col mr-10 ${
-                selectedView === "toListen" ? "block" : "hidden lg:block"
-              }`}
-            >
-              <ToListen
-                user_id={user_id}
-                userData={userData}
-              />
-            </div>
           </div>
-          <Button
-            size="icon"
-            className="fixed bottom-6 right-6 w-24 h-24 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50"
-            onClick={() => router.push("/overview")}
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
         </>
       ) : (
-        <>
-          <div className="flex flex-row items-center justify-center mt-20">
-            <p className="text-lg mb-4">Register to get started,</p>
-            <Link href="/overview">
-              <Button
-                variant="link"
-                className="text-lg text-white p-0 mb-4 ml-2"
-              >
-                Search now!
-              </Button>
-            </Link>
-          </div>
-          <Button
-            size="icon"
-            className="fixed bottom-6 right-6 w-24 h-24 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-50"
-            onClick={() => router.push("/overview")}
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
-        </>
+        <div className="flex flex-col items-center h-screen mt-52">
+          <h1 className="font-bold mb-3">Please login to view this profile</h1>
+          <Link href="/login">
+            <Button
+              variant="secondary"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white"
+            >
+              Login
+            </Button>
+          </Link>
+        </div>
       )}
     </>
   );
 };
 
-export default UserProfile;
+export default ViewUserProfile;

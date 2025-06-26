@@ -1,8 +1,7 @@
 "use client";
-import React, { use, useEffect, useRef, useState } from "react";
-import { Album, Artist } from "./Deezer.types";
+import React, { useEffect, useState } from "react";
+import { Album } from "./Deezer.types";
 import Image from "next/image";
-import HalfIcon from "./HalfIcon";
 
 import { FaRegStar, FaStar, FaPlus, FaCheck } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
@@ -101,10 +100,21 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
   //   shouldSubmitRating.current = false;
   //   setRating(0);
   // };
+
+  const getStarColor = (starNumber: number) => {
+    if (starNumber <= 3) {
+      return { className: "text-red-500", stroke: "#f87171" };
+    } else if (starNumber <= 7) {
+      return { className: "text-yellow-500", stroke: "#facc15" };
+    } else {
+      return { className: "text-blue-500", stroke: "#60a5fa" };
+    }
+  };
+
   return (
     <div className="mr-10">
       {Number.isInteger(albumObject?.id) && (
-        <div className="flex flex-col">
+        <div className="flex flex-col ml-10 max-w-[400px]">
           <Image
             src={albumObject?.cover_big!}
             alt="Album Cover"
@@ -129,12 +139,14 @@ const SideAlbumView: React.FC<SideAlbumView> = ({
                   {starIndex <= (hover || userAlbumRating) ? (
                     <FaStar
                       size={40}
-                      className="text-yellow-500"
+                      className={
+                        getStarColor(hover || userAlbumRating).className
+                      }
                     />
                   ) : (
                     <FaRegStar
                       size={40}
-                      className="text-yellow-500"
+                      className="text-neutral-400"
                     />
                   )}
                 </div>

@@ -2,6 +2,8 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 interface AuthenticationProps {
   handleCloseModal: () => void;
@@ -57,29 +59,35 @@ const Authentication = () => {
         {isRegistration ? "Create an account!" : "Sign in to your account!"}
       </p>
       {error && <p>❌ {error}</p>}
-      <input
-        className="text-black text-lg rounded-sm pt-2 pb-2 pl-6 pr-6"
+      <Input
+        className="text-white text-lg rounded-sm pt-2 pb-2 pl-6 pr-6 max-w-64"
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
         }}
         placeholder="Email"
       />
-      <input
-        className="text-black text-lg rounded-sm pt-2 pb-2 pl-6 pr-6 mb-2"
+      <Input
+        className="text-white text-lg rounded-sm pt-2 pb-2 pl-6 pr-6 mb-2 max-w-64"
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
         }}
-        placeholder="********"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleAuthenticate();
+          }
+        }}
+        placeholder="Password"
         type="password"
       />
-      <button
-        className="bg-zinc-700 rounded-md pt-2 pb-2 pl-4 pr-4 hover:ring-2 hover:ring-blue-600"
+      <Button
+        variant="outline"
+        className="text-white rounded-md pt-2 pb-2 pl-4 pr-4 hover:ring-2 hover:ring-blue-600"
         onClick={handleAuthenticate}
       >
         <p>{isAuthenticating ? "Authenticating..." : "Submit"}</p>
-      </button>
+      </Button>
       <hr />
       <div className="flex flex-col items-center">
         <p className="mb-2">
@@ -87,14 +95,15 @@ const Authentication = () => {
             ? "Already have an account?"
             : "Don't have an account?"}
         </p>
-        <button
-          className="bg-zinc-700 rounded-md pt-2 pb-2 pl-4 pr-4 hover:ring-2 hover:ring-blue-600"
+        <Button
+          variant="outline"
+          className="text-white rounded-md pt-2 pb-2 pl-4 pr-4 hover:ring-2 hover:ring-blue-600"
           onClick={() => {
             setIsRegistration(!isRegistration);
           }}
         >
           <p>{isRegistration ? "Sign in" : "Sign up"}</p>
-        </button>
+        </Button>
       </div>
     </div>
   );

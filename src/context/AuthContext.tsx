@@ -15,6 +15,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -30,6 +31,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [globalUser, setGlobalUser] = useState<any>(null);
   const [globalData, setGlobalData] = useState<{} | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   function signup(email: string, password: string) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -46,12 +48,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   function logout() {
     setGlobalUser(null);
     setGlobalData(null);
+    router.push("/");
     return signOut(auth);
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("CURRENT_USER: ", user);
+      //console.log("CURRENT_USER: ", user);
       setGlobalUser(user);
 
       if (!user) {
